@@ -1,0 +1,45 @@
+﻿<h2>Mountain Bikes Sold</h2>
+
+<div class="container">
+    <canvas id="myChart"></canvas>
+</div>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+
+
+
+    var chart = document.getElementById('myChart').getContext('2d');
+    var massPopChart = new Chart(myChart, {
+        type: 'bar',
+        data: {
+
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            datasets: [{
+                label: 'Number of Mountain bikes sold for the year',
+                data: [163, 152, 200, 211, 139, 127, 122, 148, 160, 125, 118, 90],
+                backgroundColor: [
+                    'rgba(255, 0, 0, 0.6)',
+                    'rgba(255, 255, 0, 0.6)',
+                    'rgba(0, 255, 0, 0.6)',
+                    'rgba(0, 0, 255, 0.6)',
+                    'rgba(128, 0, 0, 0.6)',
+                    'rgba(128, 0, 0, 0.6)',
+                    'rgba(0, 128, 128, 0.6)'
+                ],
+                borderWidth: 1,
+                borderColor: '#777',
+                hoverBorderWidth: 2,
+                hoverBorderColor: '#000',
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'Number of Mountain bikes sold for the year',
+                fontSize: '25'
+            }
+        }
+    })
+</script>
+

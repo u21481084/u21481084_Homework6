@@ -1,0 +1,81 @@
+﻿@model IPagedList<Homework6_u21481084.Models.order_items>
+
+@using PagedList.Mvc;
+@using PagedList;
+
+
+
+
+
+    <form class="form-inline">
+        <div class="form-row">
+            <input name="date" type="date" class="form-control" style="margin-top: 5px; margin-bottom: 5px;">
+            <button type="submit" class="btn btn-primary" style="margin-top: 5px; margin-bottom: 5px;"> Search </button>
+        </div>
+    </form>
+
+    @{
+        var groups = Model.GroupBy(s => s.order_id);
+        foreach (var group in groups)
+        {
+            decimal sum = 0;
+            DateTime dDate = Model.Select(s => s.order.order_date).FirstOrDefault();
+            <h4>Order @group.Key- @dDate.ToString("dd/MM/yyyy")</h4>
+            <table class="table">
+
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().product.product_name)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().list_price)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().quantity)
+                    </th>
+                    <th>
+                        Total
+                    </th>
+
+
+
+                </tr>
+
+                @foreach (var item in group)
+                {
+                    var total = item.quantity * item.list_price;
+                    sum = sum + total;
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.product.product_name)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.list_price)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.quantity)
+                        </td>
+                        <td>
+                            @total
+                        </td>
+
+
+
+                    </tr>
+                }
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td>Grand Total: @sum</td>
+                </tr>
+            </table>
+        }
+
+
+    }
+
+
+@Html.PagedListPager(Model, i => Url.Action("Index", "order_items", new { i, date = Request.QueryString["date"] }))

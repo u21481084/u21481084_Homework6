@@ -1,0 +1,242 @@
+﻿@model IPagedList<Homework6_u21481084.Models.product>
+
+@{
+    ViewBag.Title = "Index";
+}
+@using PagedList.Mvc;
+@using PagedList;
+<h2>Index</h2>
+@using (Html.BeginForm("Index", "products", FormMethod.Get))
+{
+    <input type="text" name="search" placeholder="Enter Product Name" />
+    <input type="submit" name="submit" value="Search" />
+    <input type="button" id="Create" name="Create" value="Create"  />
+}
+
+
+<table class="table" id="prodTable">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.First().product_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().model_year)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().list_price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().brand.brand_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().category.category_name)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.product_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.model_year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.list_price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.brand.brand_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.category.category_name)
+            </td>
+            <td>
+                <a id="@item.product_id" class="edit" href="javascript:;">Edit</a> |
+                <a id="@item.product_id" class="details" href="javascript:;">Details</a> |
+                <a id="@item.product_id" class="delete" href="javascript:;">Delete</a> |
+            </td>
+        </tr>
+    }
+
+</table>
+@Html.PagedListPager(Model, i => Url.Action("Index", "products", new { i, search = Request.QueryString["search"] }))
+
+
+<div id="partialModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Product Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#prodTable .details").click(function (event) {
+           
+            $.ajax({
+                type: "POST",
+                url: "/products/Details",
+                data: '{id: "' + event.target.id + '" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (response) {
+                    $("#partialModal").find(".modal-body").html(response);
+                    $("#partialModal").modal('show');
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        });
+    });
+    $(function () {
+        $("#prodTable .edit").click(function (event) {
+
+            $.ajax({
+                type: "POST",
+                url: "/products/Edit",
+                data: '{id: "' + event.target.id + '" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (response) {
+                    $("#partialModal").find(".modal-body").html(response);
+                    $("#partialModal").modal('show');
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        });
+    });
+
+    $(function () {
+        $("#prodTable .delete").click(function (event) {
+
+            $.ajax({
+                type: "POST",
+                url: "/products/Delete",
+                data: '{id: "' + event.target.id + '" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (response) {
+                    $("#partialModal").find(".modal-body").html(response);
+                    $("#partialModal").modal('show');
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        });
+    });
+    $(function () {
+        $("#Create").click(function (event) {
+
+            $.ajax({
+                type: "POST",
+                url: "/products/Create",
+                data: '{id: "' + event.target.id + '" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (response) {
+                    $("#partialModal").find(".modal-body").html(response);
+                    $("#partialModal").modal('show');
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

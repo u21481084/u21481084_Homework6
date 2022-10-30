@@ -1,0 +1,82 @@
+﻿@model Homework6_u21481084.Models.product
+<div>
+    <h4>@Model.product_name</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.product_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.product_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.model_year)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.model_year)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.list_price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.list_price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.brand.brand_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.brand.brand_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.category.category_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.category.category_name)
+        </dd>
+    </dl>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayName("Store")
+            </th>
+            <th>
+                @Html.DisplayName("Quantity")
+            </th>
+
+        </tr>
+
+        @foreach (var item in Model.stocks)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.store.store_name)
+                </td>
+                <td>
+                    @if (item.quantity <= 0)
+                    {
+
+
+                        <p style="color:red">Out of stock</p>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.quantity)
+                    }
+
+                </td>
+
+            </tr>
+        }
+
+    </table>
+</div>
